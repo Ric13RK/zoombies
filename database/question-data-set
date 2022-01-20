@@ -1,0 +1,77 @@
+{
+  "question": "Which AWS storage service assists S3 with transferring data?",
+  "correct_answer": "AWS Import/Export",
+  "incorrect_answer": [
+		"CloudFront",
+		"DynamoDB",
+		"ElastiCache"
+	], 
+	"tags": [    "s3"   ],
+	"question_complexity": "1"
+}
+{
+  "question": "Object storage systems store files in a flat organization of containers called what?",
+  "correct_answer": "Buckets",
+  "incorrect_answer": [
+		"Baskets",
+		"Brackets",
+		"Clusters"
+	], 
+	"tags": [    "s3"   ],
+	"question_complexity": "2"
+}
+{
+  "question": "Amazon S3 has how many pricing components?",
+  "correct_answer": "3",
+  "incorrect_answer": [
+		"5",
+		"4",
+		"2"
+  ], 
+	"tags": [    "s3"   ],
+	"question_complexity": "3"
+}
+{
+  "question": "What does RRS stand for when referring to the storage option in Amazon S3 that offers a lower level of durability at a lower storage cost?",
+  "correct_answer": "Reduced Redundancy Storage",
+  "incorrect_answer": [
+		"Redundant Research Storage",
+		"Regulatory Resources Storage",
+		"Reduced Reaction Storage"
+  ], 
+	"tags": [    "s3"   ],
+	"question_complexity": "1"
+}
+{
+  "question": "Object storage systems require less _____ than file systems to store and access files.",
+  "correct_answer": "Metadata",
+  "incorrect_answer": [
+		"Big data",
+		"Master data",
+		"Exif data"
+	], 
+"tags": [    "s3"   ],
+	"question_complexity": "2"
+}
+{
+  "question": "Amazon S3 offers developers which combination?",
+  "correct_answer": "High scalability and low latency data storage infrastructure at low costs.",
+  "incorrect_answer": [
+		"Low scalability and high latency data storage infrastructure at high costs.",
+		"High scalability and low latency data storage infrastructure at high costs.",
+		"Low scalability and high latency data storage infrastructure at low costs."
+	], 
+	"tags": [    "s3"   ],
+	"question_complexity": "3"
+}
+{
+  "question": "Why is a bucket policy necessary?",
+  "correct_answer": "To grant or deny accounts to read and upload files in your bucket.",
+  "incorrect_answer": [
+		"To allow bucket access to multiple users.",
+		"To approve or deny users the option to add or remove buckets.",
+		"To allow bucket access to all the users."
+	], 
+	"tags": [    "s3"   ],
+	"question_complexity": "1"
+}

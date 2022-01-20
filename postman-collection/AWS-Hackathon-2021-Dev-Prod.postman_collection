@@ -1,0 +1,205 @@
+{
+	"info": {
+		"_postman_id": "263ef291-fe19-4810-a0b4-943bd34d744e",
+		"name": "New Collection Copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PROD",
+			"item": [
+				{
+					"name": "getQuestions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://6wnm8q7sve.execute-api.ap-southeast-2.amazonaws.com/Prod/getQuestions?number=2",
+							"protocol": "https",
+							"host": [
+								"6wnm8q7sve",
+								"execute-api",
+								"ap-southeast-2",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"Prod",
+								"getQuestions"
+							],
+							"query": [
+								{
+									"key": "number",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addQuestion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"question\": \"Why is a bucket policy necessary?\",\r\n  \"correct_answer\": \"To grant or deny accounts to read and upload files in your bucket.\",\r\n  \"incorrect_answer\": [\r\n\t\t\"To allow bucket access to multiple users.\",\r\n\t\t\"To approve or deny users the option to add or remove buckets.\",\r\n\t\t\"To allow bucket access to all the users.\"\r\n\t], \r\n\t\"tags\": [    \"s3\"   ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://6wnm8q7sve.execute-api.ap-southeast-2.amazonaws.com/Prod/addQuestion",
+							"protocol": "https",
+							"host": [
+								"6wnm8q7sve",
+								"execute-api",
+								"ap-southeast-2",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"Prod",
+								"addQuestion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "recordAnswer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"user_id\": \"Sudheer Mylapur\",\r\n  \"question_id\": \"ae5424df-2804-4a8a-b0ff-ec12c41d30ad\",\r\n  \"correct_response\": true,\r\n  \"question_complexity\": 1,\r\n  \"time_taken\": \"30\",\r\n  \"tags\": [\r\n    \"EC2\"\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://6wnm8q7sve.execute-api.ap-southeast-2.amazonaws.com/Prod/recordAnswer",
+							"protocol": "https",
+							"host": [
+								"6wnm8q7sve",
+								"execute-api",
+								"ap-southeast-2",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"Prod",
+								"recordAnswer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DEV",
+			"item": [
+				{
+					"name": "getQuestions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://vzcqvpmen5.execute-api.ap-southeast-2.amazonaws.com/Prod/getQuestions?number=2",
+							"protocol": "https",
+							"host": [
+								"vzcqvpmen5",
+								"execute-api",
+								"ap-southeast-2",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"Prod",
+								"getQuestions"
+							],
+							"query": [
+								{
+									"key": "number",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addQuestion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"question\": \"What does THAT stand for?\",\r\n  \"correct_answer\": \"Elastic Kubernetes Service\",\r\n  \"incorrect_answer\": [\r\n    \"Elastic Kloud Service\",\r\n    \"Elastic Kafka Service\",\r\n    \"Elastic Kinesis Solution\"\r\n  ],\r\n  \"tags\": [\r\n    \"THAT\"\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://vzcqvpmen5.execute-api.ap-southeast-2.amazonaws.com/Prod/addQuestion",
+							"protocol": "https",
+							"host": [
+								"vzcqvpmen5",
+								"execute-api",
+								"ap-southeast-2",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"Prod",
+								"addQuestion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "recordAnswer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"user_id\": \"Sudheer Mylapur\",\r\n  \"question_id\": \"43af3ea3-db19-4e98-8ef3-c3d37e8a2f6f\",\r\n  \"correct_response\": true,\r\n  \"question_complexity\": 1,\r\n  \"time_taken\": \"1300150800000000\",\r\n  \"tags\": [\r\n    \"EC2\"\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://vzcqvpmen5.execute-api.ap-southeast-2.amazonaws.com/Prod/recordAnswer",
+							"protocol": "https",
+							"host": [
+								"vzcqvpmen5",
+								"execute-api",
+								"ap-southeast-2",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"Prod",
+								"recordAnswer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

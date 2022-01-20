@@ -1,0 +1,144 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: A cloudformation stack for Elastic-Beanstalk - Production
+
+Parameters: #
+  StackType:
+    Description: nodeJs
+    Type: String
+    MinLength: 1
+    MaxLength: 255
+    AllowedValues:
+      - nodejs
+
+  ApplicationName:
+    Description: Name of your application
+    Type: String
+    MinLength: 1
+    MaxLength: 255
+    AllowedPattern: "^[a-zA-Z][-a-zA-Z0-9]*$"
+
+  TeamName:
+    Description: Name of the team - for tagging/resource naming
+    Type: String
+    MinLength: 1
+    MaxLength: 255
+    AllowedPattern: "^[a-zA-Z][-a-zA-Z0-9]*$"
+
+Mappings: #
+  StackMap:
+    nodejs:
+      stackName: 64bit Amazon Linux 2 v5.4.5 running Node.js 12
+
+Resources: #
+  Application:
+    Type: AWS::ElasticBeanstalk::Application
+    Properties:
+      ApplicationName: !Ref ApplicationName
+
+  ApplicationVersion:
+    Type: AWS::ElasticBeanstalk::ApplicationVersion
+    Properties:
+      ApplicationName: !Ref Application
+      SourceBundle:
+        S3Bucket: zoombies-frontend-bucket-XXX
+        S3Key: nodejs.zip
+
+  Environment:
+    Type: AWS::ElasticBeanstalk::Environment
+    Properties:
+      EnvironmentName: !Ref TeamName
+      ApplicationName: !Ref ApplicationName
+      TemplateName: !Ref ConfigurationTemplate
+      VersionLabel: !Ref ApplicationVersion
+      Tags:
+        - Key: Team
+          Value: !Ref TeamName
+    DependsOn:
+      - ConfigurationTemplate
+      - ApplicationVersion
+
+  ConfigurationTemplate:
+    Type: AWS::ElasticBeanstalk::ConfigurationTemplate
+    Properties:
+      ApplicationName: !Ref ApplicationName
+      SolutionStackName: !FindInMap [ StackMap, !Ref StackType, stackName ]
+      OptionSettings:
+        - Namespace: aws:autoscaling:launchconfiguration
+          OptionName: IamInstanceProfile
+          Value: !Ref AppInstanceProfile
+        - Namespace: "aws:autoscaling:launchconfiguration"
+          OptionName: EC2KeyName
+          Value: Zoombies-createdByMendel
+        - Namespace: "aws:autoscaling:launchconfiguration"
+          OptionName: InstanceType
+          Value: t2.micro
+        - Namespace: aws:autoscaling:asg
+          OptionName: MinSize
+          Value: '2'
+        - Namespace: aws:autoscaling:asg
+          OptionName: MaxSize
+          Value: '3'
+        - Namespace: aws:elasticbeanstalk:environment
+          OptionName: EnvironmentType
+          Value: LoadBalanced
+        - Namespace: aws:elasticbeanstalk:environment
+          OptionName: LoadBalancerType
+          Value: application
+        - Namespace: aws:elasticbeanstalk:environment:process:default
+          OptionName: HealthCheckPath
+          Value: /
+        - Namespace: aws:elbv2:listener:default
+          OptionName: ListenerEnabled
+          Value: true
+        - Namespace: aws:elbv2:listener:default
+          OptionName: Protocol
+          Value: HTTP
+        - Namespace: aws:ec2:vpc
+          OptionName: AssociatePublicIpAddress
+          Value: 'false'
+        - Namespace: aws:ec2:vpc
+          OptionName: VPCId
+          Value: vpc-0e052fac47129XXXX
+        - Namespace: aws:ec2:vpc
+          OptionName: Subnets
+          Value: subnet-0a1ac99fe2d4aXXXX, subnet-0fa75f5d4ed91XXXX
+        - Namespace: aws:ec2:vpc
+          OptionName: ELBSubnets
+          Value: subnet-008faf5651928XXXX, subnet-0a7f90b9cf355XXXX
+
+  # IAM resources
+  AppRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          -
+            Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+
+  AppPolicies:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: App
+      Roles:
+      - !Ref AppRole
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          -
+            Effect: Allow
+            Action: "*"
+            Resource: "*"
+
+  AppInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles:
+      - !Ref AppRole

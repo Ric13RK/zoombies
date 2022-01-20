@@ -1,0 +1,108 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  add-question-set
+
+  Sample SAM Template for questions-n-records
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  AddQuestionsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: add-question/
+      Handler: add-question.lambda_handler
+      Runtime: python3.7
+      Policies:
+        # Give Lambda basic execution Permission to the lambdaRDSMysql
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaVPCAccessExecutionRole
+        - SecretsManagerReadWrite
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-0a5815d0532f21636
+        SubnetIds:
+          - subnet-09c8685f78b22a472
+          - subnet-0fa75f5d4ed910b20
+      Events:
+        AddQuestions:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /addQuestion
+            Method: post
+  GetQuestionSetFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: get-question-set/
+      Handler: get-question-set.lambda_handler
+      Runtime: python3.7
+      Policies:
+        # Give Lambda basic execution Permission to the lambdaRDSMysql
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaVPCAccessExecutionRole
+        - SecretsManagerReadWrite
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-0a5815d0532f21636
+        SubnetIds:
+          - subnet-09c8685f78b22a472
+          - subnet-0fa75f5d4ed910b20
+      Events:
+        AddQuestions:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /getQuestions
+            Method: get        
+  RecordAnswersFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: record-answers/
+      Handler: record-answers.lambda_handler
+      Runtime: python3.7
+      Policies:
+        # Give Lambda basic execution Permission to the lambdaRDSMysql
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaVPCAccessExecutionRole
+        - SecretsManagerReadWrite
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-0a5815d0532f21636
+        SubnetIds:
+          - subnet-09c8685f78b22a472
+          - subnet-0fa75f5d4ed910b20
+      Events:
+        AddQuestions:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /recordAnswer
+            Method: post        
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  QuestionApi:
+    Description: "API Gateway endpoint URL for Prod stage for Add Question function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/questions/"
+  AddQuestionsFunction:
+    Description: "Add Question Lambda Function ARN"
+    Value: !GetAtt AddQuestionsFunction.Arn
+  AddQuestionsFunctionIamRole:
+    Description: "Implicit IAM Role created for Add Question function"
+    Value: !GetAtt AddQuestionsFunctionRole.Arn
+  GetQuestionSetFunction:
+    Description: "Get Question Set Lambda Function ARN"
+    Value: !GetAtt GetQuestionSetFunction.Arn
+  GetQuestionSetFunctionIamRole:
+    Description: "Implicit IAM Role created for Get Question set function"
+    Value: !GetAtt GetQuestionSetFunctionRole.Arn
+  RecordAnswersFunction:
+    Description: "Record Answers Lambda Function ARN"
+    Value: !GetAtt RecordAnswersFunction.Arn
+  RecordAnswersFunctionIamRole:
+    Description: "Implicit IAM Role created for Record Answers function"
+    Value: !GetAtt RecordAnswersFunctionRole.Arn

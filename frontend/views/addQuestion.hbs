@@ -1,0 +1,58 @@
+<nav class="navbar sticky-top navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16">
+            <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5z"/>
+        </svg>
+    </a>
+  </div>
+</nav>
+{{#if added}}
+    <!-- Flexbox container for aligning the toasts -->
+    <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center w-100">
+        <div id="successMessage" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    Question added successfully
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    {{!-- Force toast to show --}}
+    <script>
+        let toastBody = document.getElementById("successMessage")
+        let toast = new bootstrap.Toast(toastBody)
+        toast.show()    
+    </script>
+{{/if}}
+<form class="frosted" action="/add" method="post">
+    <div>
+        <label for="title" class="form-label">Question Title</label>
+        <input type="text" class="form-control" name="title" id="title"/>
+    </div>
+    <div>
+        <label for="correctAnswer" class="form-label">Correct Answer</label>
+        <input type="text" class="form-control" name="correctAnswer" id="correctAnswer"/>
+    </div>
+
+    {{#each incorrectAnswerReference}}
+        <div>
+            <label for="incorrectAnswer{{this}}" class="form-label">Incorrect Answer</label>
+            <input type="text" class="form-control" name="incorrectAnswer{{this}}" id="incorrectAnswer{{this}}"/>
+        </div>
+    {{/each}}
+
+    <div>
+        <label for="tags" class="form-label">Complexity: (1-easy, 2-medium, 3-hard)</label>
+        <input type="number" class="form-control" name="complexity" id="complexity" min="1" max="3"/>
+    </div>
+    <div>
+        <label for="tags" class="form-label">Tags (Comma Separated)</label>
+        <input type="text" class="form-control" name="tags" id="tags"/>
+    </div>
+    <br/>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <input class="btn btn-success" type="submit">
+    </div>
+</form>

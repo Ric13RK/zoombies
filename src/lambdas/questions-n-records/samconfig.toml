@@ -1,0 +1,11 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "zoombies-prod-lambdas"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1jmcdphf080t7"
+s3_prefix = "zoombies-prod-lambdas"
+region = "ap-southeast-2"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+image_repositories = []

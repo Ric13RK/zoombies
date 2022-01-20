@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  CodeStorage:
+    Type: AWS::S3::Bucket
+    Properties:
+      Tags:
+        - Key: Owner
+          Value: Nathan.Duckett
+        - Key: Team
+          Value: Zoombies
+Outputs:
+  S3BucketName:
+    Description: Name of our bucket
+    Value: !Ref CodeStorage

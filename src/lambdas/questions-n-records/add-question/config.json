@@ -1,0 +1,7 @@
+{
+    "region" : "ap-southeast-2",
+    "rdssecretName" : "arn:aws:secretsmanager:ap-southeast-2:571747411449:secret:MyRDSInstanceRotationSecret-U3t58Et5Ubbp-cicp05",
+    "dbhost" : "zoombiesprod.cx9tz6welwlv.ap-southeast-2.rds.amazonaws.com",
+    "dbname" : "zoombies",
+    "tablename" : "questions_table"
+}

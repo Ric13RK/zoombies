@@ -1,0 +1,3 @@
+git+https://github.com/ramsrigouthamg/Questgen.ai
+git+https://github.com/boudinfl/pke.git
+boto3

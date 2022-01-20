@@ -1,0 +1,90 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: All security groups for our project
+
+Resources: #
+  SecurityGroup1:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+        GroupDescription: Security group for rds
+        VpcId: vpc-0e052fac47129a868
+        SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          CidrIp: 0.0.0.0/0
+        SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+        Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}-MySql
+
+  SecurityGroup2:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+        GroupDescription: Security group for ElasticBeanstalk
+        VpcId: vpc-0e052fac47129a868
+        SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+        Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}-EB
+
+  SecurityGroup3:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+        GroupDescription: Security group for EC2
+        VpcId: vpc-0e052fac47129a868
+        SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+        Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}-EC2
+
+  SecurityGroup4:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+        GroupDescription: Security group for rdsProd
+        VpcId: vpc-0e052fac47129a868
+        SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          CidrIp: 0.0.0.0/0
+        SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+        Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}-MySqlProd
+
+
+
+Outputs: #
+   SgRDS:
+    Description: SG id for RDS open-ports 3306
+    Value: !GetAtt SecurityGroup1.GroupId
+
+   SgEB:
+    Description: SG id for ElasticBeanstalk open-ports 80
+    Value: !GetAtt SecurityGroup2.GroupId
+
+   SgEC2:
+    Description: SG id for EC2 open-ports 22
+    Value: !GetAtt SecurityGroup3.GroupId
+
+   SgRDSProd:
+    Description: SG id for EC2 open-ports 3306
+    Value: !GetAtt SecurityGroup4.GroupId

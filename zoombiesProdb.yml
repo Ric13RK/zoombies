@@ -1,0 +1,55 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: A cloudformation template for an RDS instance - MultiAZ (using 2 private subnets connected to a natGateway)
+
+Resources: #
+  MyRDSInstanceRotationSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: 'This is my rds instance secret'
+      GenerateSecretString:
+        SecretStringTemplate: '{"username": "XXXXX"}'
+        GenerateStringKey: 'password'
+        PasswordLength: 16
+        ExcludeCharacters: '"@/\'
+      Tags:
+        -
+          Key: AppName
+          Value: zoombiesXXXXXX
+
+  Database:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceIdentifier: zoombiesProd
+      DBName: zoombies
+      DBInstanceClass: db.t2.micro
+      Engine: mysql
+      EngineVersion: 8.0.23
+      AllocatedStorage: 20
+      StorageType: gp2
+      MultiAZ: true
+      PubliclyAccessible: false
+      MasterUsername: XXXXX
+      MasterUserPassword: !Sub '{{resolve:secretsmanager:${MyRDSInstanceRotationSecret}::password}}'
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      VPCSecurityGroups:
+        - sg-0a5815d0532f2XXXX
+        - sg-03495a0aa30c5XXXX
+    DeletionPolicy: Snapshot
+
+  DBSubnetGroup:
+    Type: "AWS::RDS::DBSubnetGroup"
+    Properties:
+      DBSubnetGroupDescription: description
+      SubnetIds:
+        - subnet-0fa75f5d4ed91XXXX
+        - subnet-09c8685f78b22XXXX
+
+Outputs: #
+  Endpoint:
+    Description: MySQL V8.0.23
+    Value: !GetAtt
+      - Database
+      - Endpoint.Address
+  SecretArn:
+    Description: SecretManager
+    Value: !Ref MyRDSInstanceRotationSecret
